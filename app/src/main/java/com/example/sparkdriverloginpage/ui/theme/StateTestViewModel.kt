@@ -35,14 +35,10 @@ class StateTestViewModel:ViewModel() {
         _isValidEmailPassword.value= Patterns.EMAIL_ADDRESS.matcher(name).matches() && passwordPattern.matches(password)
     }
 
-
     private val _passwordVisibility=MutableLiveData<Boolean>()
     val passwordVisibility:LiveData<Boolean> = _passwordVisibility
     fun passwordVisibilitychange(check:Boolean){
         _passwordVisibility.value=check
     }
-
-
-
 
 }

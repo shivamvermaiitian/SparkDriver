@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.NavHost
@@ -17,16 +16,9 @@ import com.example.sparkdriverloginpage.ui.theme.Routes
 import com.example.sparkdriverloginpage.ui.theme.SignInScreen
 import com.example.sparkdriverloginpage.ui.theme.StateTestViewModel
 
-//import com.example.loginpagesparkdriver.ui.theme.DefaultLoginScreen
-//import com.example.loginpagesparkdriver.ui.theme.ResetPasswordScreen
-//import com.example.loginpagesparkdriver.ui.theme.Routes
-//import com.example.loginpagesparkdriver.ui.theme.SignInScreen
-//import com.example.loginpagesparkdriver.ui.theme.StateTestViewModel
-
 class MainActivity : ComponentActivity() {
-    //
     //    private val viewModel by viewModels<MyViewModel>()
-//    private val myViewModel: MyViewModel by viewModels()
+    //    private val myViewModel: MyViewModel by viewModels()
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         lateinit var stateTestViewModel: StateTestViewModel
@@ -39,9 +31,13 @@ class MainActivity : ComponentActivity() {
 //            myViewModel=ViewModelProvider(this).get(myViewModel::class.java)
             val navController= rememberNavController()
             NavHost(navController = navController, startDestination = Routes.screenA, builder = {
+
+
                 composable(Routes.screenA){
                     DefaultLoginScreen(viewModel,navController)
                 }
+
+
                 composable(Routes.screenB+"/{name}"){
                     val name=it.arguments?.getString("email")
                     SignInScreen(viewModel,name?:"Email" , navController)
@@ -49,7 +45,7 @@ class MainActivity : ComponentActivity() {
 //                        SignInScreen(username = email,navController)
 //                    }
                 }
-                //
+
                 composable(Routes.screenC){
 //                    val name=it.arguments?.getString("email")
                     ResetPasswordScreen(viewModel,navController)

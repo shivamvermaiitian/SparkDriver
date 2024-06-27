@@ -1,7 +1,5 @@
 package com.example.sparkdriverloginpage.ui.theme
 
-import android.provider.ContactsContract.CommonDataKinds.Email
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,18 +20,22 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
@@ -44,6 +46,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 //import com.example.loginpagesparkdriver.R
 import com.example.sparkdriverloginpage.R
+import kotlinx.coroutines.launch
 
 @Composable
 fun SignInScreen(viewModel: StateTestViewModel,username:String,navController: NavHostController) {
@@ -66,23 +69,41 @@ fun SignInScreen(viewModel: StateTestViewModel,username:String,navController: Na
 //    }
     val isValidEmailPassword by viewModel.isValidEmailPassword.observeAsState(initial = true)
 
+
+    val keyboardController= LocalSoftwareKeyboardController.current
+
     val icon=if (passwordVisibility)
         painterResource(id = R.drawable.baseline_visibility_24)
     else
         painterResource(id = R.drawable.baseline_visibility_off_24)
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(LightBlue),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Row {
-            Image(painter = painterResource(id = R.drawable.logosparkdriver), contentDescription ="Login image", modifier = Modifier.size(80.dp))
-            Text(text = "Spark Driver", color = Color.White, fontSize =50.sp)
+    val snackbarHostState = remember {
+        SnackbarHostState()
+    }
+    val scope = rememberCoroutineScope()
+
+    Scaffold(
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
         }
-        Spacer(modifier = Modifier.height(100.dp))
+    ) {paddingValues ->
+
+    Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(LightBlue),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Row {
+                Image(
+                    painter = painterResource(id = R.drawable.logosparkdriver),
+                    contentDescription = "Login image",
+                    modifier = Modifier.size(80.dp)
+                )
+                Text(text = "Spark Driver", color = Color.White, fontSize = 50.sp)
+            }
+            Spacer(modifier = Modifier.height(100.dp))
 //
 //        TextField(value = name, onValueChange ={
 //            viewModel.onNameUpdate(it)
@@ -95,9 +116,10 @@ fun SignInScreen(viewModel: StateTestViewModel,username:String,navController: Na
 //        } )
 
 //        Log.i("Myscreenlog","is called")
-        OutlinedTextField(value = name, onValueChange = {
-            viewModel.onNameUpdate(it)
-        },
+            OutlinedTextField(
+                value = name, onValueChange = {
+                    viewModel.onNameUpdate(it)
+                },
 //            placeholder = {
 //                if (username==null){
 //                Text(text = "Email",fontSize = 20.sp)
@@ -105,99 +127,125 @@ fun SignInScreen(viewModel: StateTestViewModel,username:String,navController: Na
 //                Text(text = username,fontSize = 20.sp)
 //            }
 //                          },
-            singleLine = true,
-            textStyle = TextStyle(
-                fontSize = 20.sp,
-            )
+                singleLine = true,
+                textStyle = TextStyle(
+                    fontSize = 20.sp,
+                )
 //            label = {
 //        }
-            , modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    start = 20.dp,
-                    end = 20.dp
-                )
-                .size(
-                    width = 250.dp,
-                    height = 70.dp
-                ),
-            shape = RoundedCornerShape(36.dp),colors = TextFieldDefaults.colors()
-        )
-        Spacer(modifier = Modifier.height(20.dp))
-        OutlinedTextField(value = password, onValueChange = {
-            viewModel.onPasswordUpdate(it)
-        },
-            placeholder = { Text("Password", fontSize = 20.sp) },
-            singleLine = true,
-            textStyle = TextStyle(
-                fontSize = 20.sp,
-            ), trailingIcon = {
-                              IconButton(onClick = {
+                , modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = 20.dp,
+                        end = 20.dp
+                    )
+                    .size(
+                        width = 250.dp,
+                        height = 70.dp
+                    ),
+                shape = RoundedCornerShape(36.dp), colors = TextFieldDefaults.colors()
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            OutlinedTextField(
+                value = password, onValueChange = {
+                    viewModel.onPasswordUpdate(it)
+                },
+                placeholder = { Text("Password", fontSize = 20.sp) },
+                singleLine = true,
+                textStyle = TextStyle(
+                    fontSize = 20.sp,
+                ), trailingIcon = {
+                    IconButton(onClick = {
 //                                  passwordVisibility=!passwordVisibility
-                                  viewModel.passwordVisibilitychange(!passwordVisibility)
-                              }) {
-                                  Icon(
-                                      painter = icon ,
-                                      contentDescription = "Visibility Icon"
-                                  )
-                              }
-            },
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Password
-            ),
-            visualTransformation =if (passwordVisibility)VisualTransformation.None
-            else PasswordVisualTransformation() ,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    start = 20.dp,
-                    end = 20.dp
-                )
-                .size(
-                    width = 250.dp,
-                    height = 70.dp
+                        viewModel.passwordVisibilitychange(!passwordVisibility)
+                    }) {
+                        Icon(
+                            painter = icon,
+                            contentDescription = "Visibility Icon"
+                        )
+                    }
+                },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Password
                 ),
-            shape = RoundedCornerShape(36.dp),colors = TextFieldDefaults.colors()
-        )
-        Spacer(modifier = Modifier.height(20.dp))
-        if (!isValidEmailPassword) {
-            Text(
-                text = "Invalid password",
-                color = Color.Red,fontSize = 20.sp,
-                modifier = Modifier.padding(8. dp)
+                visualTransformation = if (passwordVisibility) VisualTransformation.None
+                else PasswordVisualTransformation(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = 20.dp,
+                        end = 20.dp
+                    )
+                    .size(
+                        width = 250.dp,
+                        height = 70.dp
+                    ),
+                shape = RoundedCornerShape(36.dp), colors = TextFieldDefaults.colors()
             )
-        }
+            Spacer(modifier = Modifier.height(20.dp))
+            if (!isValidEmailPassword) {
+                scope.launch {
+                    val result = snackbarHostState
+                        .showSnackbar(
+                            message = "Wrong Email or Password",
+                            actionLabel = "GOT IT",
+                            // Defaults to SnackbarDuration.Short
+                            duration = SnackbarDuration.Indefinite
+                        )
+                    when (result) {
+                        SnackbarResult.ActionPerformed -> {
+//                                navController.navigate(Routes.screenC)
+                        }
 
-        Button(onClick = {
-//            isValid = isValidCredentials(name,password)
-            viewModel.isValidEmailPasswordCredentials(name, password)
-            if (isValidEmailPassword) {
-                navController.navigate(Routes.screenC)
-                //Login Logic
+                        SnackbarResult.Dismissed -> {
+//                                navController.navigate(Routes.screenC)
+                        }
+                    }
+                }
+//                Text(
+//                    text = "Invalid password",
+//                    color = Color.Red, fontSize = 20.sp,
+//                    modifier = Modifier.padding(8.dp)
+//                )
             }
-        }, colors = ButtonDefaults.buttonColors(
-            containerColor = DarkBlue_Button,
-            contentColor = Color.White
-        ), modifier = Modifier
-            .fillMaxWidth()
-            .padding(
-                start = 20.dp,
-                end = 20.dp
-            )
-            .size(
-                width = 250.dp,
-                height = 60.dp
-            ),shape = RoundedCornerShape(36.dp)
-        ) {
-            Text(text = " CONTINUE ",fontSize = 16.sp)
-        }
-        Spacer(modifier = Modifier.height(40.dp))
-        Text(modifier = Modifier.clickable { navController.navigate(Routes.screenC) }, text = "Forgot password?", color = Color.White)
-        Spacer(modifier = Modifier.height(16.dp))
-//        Text(modifier = Modifier.clickable {  }, text = "Sign up", color = Color.White)
-        Spacer(modifier = Modifier.height(200.dp))
-        Text(modifier = Modifier.clickable {  }, text = "Privacy statement", color = Color.White)
 
+            Button(
+                onClick = {
+//            isValid = isValidCredentials(name,password)
+                    keyboardController?.hide()
+                    viewModel.isValidEmailPasswordCredentials(name, password)
+                    if (isValidEmailPassword) {
+//                        navController.navigate(Routes.screenC)
+                        //Login Logic
+                    }
+                }, colors = ButtonDefaults.buttonColors(
+                    containerColor = DarkBlue_Button,
+                    contentColor = Color.White
+                ), modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = 20.dp,
+                        end = 20.dp
+                    )
+                    .size(
+                        width = 250.dp,
+                        height = 60.dp
+                    ), shape = RoundedCornerShape(36.dp)
+            ) {
+                Text(text = " CONTINUE ", fontSize = 16.sp)
+            }
+            Spacer(modifier = Modifier.height(40.dp))
+            Text(
+                modifier = Modifier.clickable { navController.navigate(Routes.screenC) },
+                text = "Forgot password?",
+                color = Color.White
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+//        Text(modifier = Modifier.clickable {  }, text = "Sign up", color = Color.White)
+            Spacer(modifier = Modifier.height(200.dp))
+            Text(modifier = Modifier.clickable { }, text = "Privacy statement", color = Color.White)
+
+        }
     }
 
 }
