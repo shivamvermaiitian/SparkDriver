@@ -282,7 +282,6 @@ fun DefaultLoginScreen(viewModel: StateTestViewModel,navController: NavHostContr
                         navController.navigate(Routes.screenB + "/$name")
                         // Handle successful login
                     }
-//            navController.navigate(Routes.screenB+"/$email")
                 }, colors = ButtonDefaults.buttonColors(
                     containerColor = DarkBlue_Button,
                     contentColor = Color.White
@@ -302,7 +301,6 @@ fun DefaultLoginScreen(viewModel: StateTestViewModel,navController: NavHostContr
 
 //            Text(text = " CONTINUE ",fontSize = 16.sp, fontStyle = FontStyle.FONT_WEIGHT_MIN)
             }
-            //
             Spacer(modifier = Modifier.height(40.dp))
 //        Text(modifier = Modifier.clickable {  }, text = "SIGN UP", color = Color.White)
             Spacer(modifier = Modifier.height(200.dp))
