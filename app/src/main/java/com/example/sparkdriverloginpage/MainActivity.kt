@@ -10,7 +10,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+//import com.example.sparkdriverloginpage.ui.theme.CustomScreen
 import com.example.sparkdriverloginpage.ui.theme.DefaultLoginScreen
+//import com.example.sparkdriverloginpage.ui.theme.MyApp
+import com.example.sparkdriverloginpage.ui.theme.MyCustomTextFieldExample
+import com.example.sparkdriverloginpage.ui.theme.NewSignInScreen
 import com.example.sparkdriverloginpage.ui.theme.ResetPasswordScreen
 import com.example.sparkdriverloginpage.ui.theme.Routes
 import com.example.sparkdriverloginpage.ui.theme.SignInScreen
@@ -21,12 +25,15 @@ class MainActivity : ComponentActivity() {
     //    private val myViewModel: MyViewModel by viewModels()
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
-        lateinit var stateTestViewModel: StateTestViewModel
+//        lateinit var stateTestViewModel: StateTestViewModel
 //        myViewModel=ViewModelProvider(this).get(myViewModel::class.java)
         super.onCreate(savedInstanceState)
         val viewModel=ViewModelProvider(this)[StateTestViewModel::class.java]
         enableEdgeToEdge()
         setContent {
+//            NewSignInScreen()
+//            MyCustomTextFieldExample()
+//            CustomScreen(viewModel)
 //            myViewModel.myData="data is stored"
 //            myViewModel=ViewModelProvider(this).get(myViewModel::class.java)
             val navController= rememberNavController()

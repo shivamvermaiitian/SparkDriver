@@ -2,6 +2,9 @@ package com.example.sparkdriverloginpage.ui.theme
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.util.Patterns
+import android.view.View
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -29,16 +32,20 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavHostController
 import com.example.sparkdriverloginpage.R
 import kotlinx.coroutines.launch
@@ -50,11 +57,11 @@ fun DefaultLoginScreen(viewModel: StateTestViewModel,navController: NavHostContr
 //    var showError by remember { mutableStateOf(false) }
 //    val snackbarHostState = remember { SnackbarHostState() }
     lateinit var stateTestViewModel: StateTestViewModel
-    //    private val viewModel by viewModels<MyViewModel>()
+    // private val viewModel by viewModels<MyViewModel>()
     // remember saves data in state change
     // rememberSaveable save data across configuration change
     // Use ViewModel and LiveData Hoist the state for re-usability
-    val name by viewModel.name.observeAsState(initial = "")
+    val name by viewModel.name.observeAsState( "")
 
 //    var email by rememberSaveable {
 //        mutableStateOf("")
@@ -99,32 +106,65 @@ fun DefaultLoginScreen(viewModel: StateTestViewModel,navController: NavHostContr
                 Text(text = "Spark Driver", color = Color.White, fontSize = 50.sp)
             }
             Spacer(modifier = Modifier.height(100.dp))
-
-            OutlinedTextField(
-                value = name, onValueChange = {
-                    viewModel.onNameUpdate(it)
-                },
-                placeholder = { Text("ID or Email", fontSize = 20.sp) },
-                singleLine = true,
-                textStyle = TextStyle(
-                    fontSize = 20.sp,
-                ),
-//            label = {
-//            Text(text ="ID or Email",fontSize = 18.sp, fontStyle = androidx.compose.ui.text.font.FontStyle(FontStyle.FONT_SLANT_ITALIC))
-//        },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        start = 20.dp,
-                        end = 20.dp
-                    )
-                    .size(
-                        width = 250.dp,
-                        height = 70.dp
-                    ),
-                shape = RoundedCornerShape(36.dp), colors = TextFieldDefaults.colors()
+            CustomLayoutOutlinedTextfield(value = name ?: "",
+                onValueChange = { viewModel.onNameUpdate(it) },
+                placeholder = "ID or Email"
             )
             Spacer(modifier = Modifier.height(20.dp))
+            CustomLayoutButton(onClick = {
+                keyboardController?.hide()
+                viewModel.isValidCredentials(name)
+//            viewModel.isValidUpdate(Patterns.EMAIL_ADDRESS.matcher(name).matches())
+//            isValid = isValidCredentials(name)
+                if (isValid) {
+                    navController.navigate(Routes.screenB + "/$name")
+                    // Handle successful login
+                } }
+            )
+
+
+
+
+//            AndroidView(factory = {
+//                View.inflate(it, R.layout.my_layout, null)
+//            },
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(20.dp)
+//                    .background(color = Color.DarkGray),
+//                update = {
+//                    val textView = it.findViewById<TextView>(R.id.textView)
+//                    textView.text = "Hello android view"
+//                    textView.textSize = 40F
+//                    textView.isClickable = true
+//                }
+//            )
+
+
+//            OutlinedTextField(
+//                value = name, onValueChange = {
+//                    viewModel.onNameUpdate(it)
+//                },
+//                placeholder = { Text("ID or Email", fontSize = 20.sp) },
+//                singleLine = true,
+//                textStyle = TextStyle(
+//                    fontSize = 20.sp,
+//                ),
+////            label = {
+////            Text(text ="ID or Email",fontSize = 18.sp, fontStyle = androidx.compose.ui.text.font.FontStyle(FontStyle.FONT_SLANT_ITALIC))
+////        },
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(
+//                        start = 20.dp,
+//                        end = 20.dp
+//                    )
+//                    .size(
+//                        width = 250.dp,
+//                        height = 70.dp
+//                    ),
+//                shape = RoundedCornerShape(36.dp), colors = TextFieldDefaults.colors()
+//            )
 
             if (!isValid) {
 //                scope.launch {
@@ -249,39 +289,48 @@ fun DefaultLoginScreen(viewModel: StateTestViewModel,navController: NavHostContr
 //                    Text(text = "Invalid Email")
 //                }
 //            }
+//            CustomLayoutButton(onClick = {
+//                keyboardController?.hide()
+//                viewModel.isValidCredentials(name)
+////            viewModel.isValidUpdate(Patterns.EMAIL_ADDRESS.matcher(name).matches())
+////            isValid = isValidCredentials(name)
+//                if (isValid) {
+//                    navController.navigate(Routes.screenB + "/$name")
+//                    // Handle successful login
+//                } }
+//            )
 
-            Button(
-                onClick = {
-                    keyboardController?.hide()
-                    viewModel.isValidCredentials(name)
-//            viewModel.isValidUpdate(Patterns.EMAIL_ADDRESS.matcher(name).matches())
-//            isValid = isValidCredentials(name)
-                    if (isValid) {
-                        navController.navigate(Routes.screenB + "/$name")
-                        // Handle successful login
-                    }
-                }, colors = ButtonDefaults.buttonColors(
-                    containerColor = DarkBlue_Button,
-                    contentColor = Color.White
-                ), modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        start = 20.dp,
-                        end = 20.dp
-                    )
-                    .size(
-                        width = 250.dp,
-                        height = 60.dp
-                    ), shape = RoundedCornerShape(36.dp)
-            ) {
-                Text(text = "CONTINUE", fontSize = 16.sp)
-
-
-//            Text(text = " CONTINUE ",fontSize = 16.sp, fontStyle = FontStyle.FONT_WEIGHT_MIN)
-            }
-            Spacer(modifier = Modifier.height(40.dp))
+//            Button(
+//                onClick = {
+//                    keyboardController?.hide()
+//                    viewModel.isValidCredentials(name)
+////            viewModel.isValidUpdate(Patterns.EMAIL_ADDRESS.matcher(name).matches())
+////            isValid = isValidCredentials(name)
+//                    if (isValid) {
+//                        navController.navigate(Routes.screenB + "/$name")
+//                        // Handle successful login
+//                    }
+//                }, colors = ButtonDefaults.buttonColors(
+//                    containerColor = DarkBlue_Button,
+//                    contentColor = Color.White
+//                ), modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(
+//                        start = 20.dp,
+//                        end = 20.dp
+//                    )
+//                    .size(
+//                        width = 250.dp,
+//                        height = 60.dp
+//                    ),
+//                shape = RoundedCornerShape(36.dp)
+//            ) {
+//                Text(text = "CONTINUE", fontSize = 16.sp)
+//
+////            Text(text = " CONTINUE ",fontSize = 16.sp, fontStyle = FontStyle.FONT_WEIGHT_MIN)
+//            }
 //        Text(modifier = Modifier.clickable {  }, text = "SIGN UP", color = Color.White)
-            Spacer(modifier = Modifier.height(200.dp))
+            Spacer(modifier = Modifier.height(240.dp))
             Text(modifier = Modifier.clickable { }, text = "Privacy statement", color = Color.White)
 
 
@@ -298,21 +347,7 @@ fun DefaultLoginScreen(viewModel: StateTestViewModel,navController: NavHostContr
 //    return Patterns.EMAIL_ADDRESS.matcher(email).matches()
 //}
 //VIEW
-/*        Regex(
-        "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
-                "\\@" +
-                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
-                "(" +
-                "\\." +
-                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
-                ")+"
-    )
-//    val passwordPattern = Regex("^(?=.*[0–9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$")
-    return emailPattern.matches(email)*/
-
-//@Composable
-//fun isValidEmail(email:String):Boolean{
-//    val pattern=java.util.regex.Pattern.compile(
+//        Regex(
 //        "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
 //                "\\@" +
 //                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
@@ -321,9 +356,36 @@ fun DefaultLoginScreen(viewModel: StateTestViewModel,navController: NavHostContr
 //                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
 //                ")+"
 //    )
-//    val matcher=pattern.matcher(email)
-//    return matcher.matches()
-//}
+//val passwordPattern = Regex("^(?=.*[0–9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$")
+//return emailPattern.matches(email)
+
+
+
+// Email validation Locally
+@Composable
+fun isValidEmail(email:String):Boolean{
+    val pattern=java.util.regex.Pattern.compile(
+        "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+                "\\@" +
+                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                "(" +
+                "\\." +
+                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                ")+"
+    )
+    val matcher=pattern.matcher(email)
+    return matcher.matches()
+}
+
+
+
+@Composable
+fun isEmailValid(email: String): Boolean {
+    val emailRegex = Regex("[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")
+    return emailRegex.matches(email)
+}
+
+
 
 //if (showError) {
 //            LaunchedEffect(snackbarHostState) {
