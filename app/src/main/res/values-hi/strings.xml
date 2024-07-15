@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">स्पार्कड्राइवर लॉगिनपेज</string>
+    <string name="enter_email">ईमेल दर्ज करें</string>
+    <string name="enter_password">पास वर्ड दर्ज करें</string>
+    <string name="reset_password">पासवर्ड रीसेट</string>
+    <string name="spark_driver">स्पार्क ड्राइवर</string>
+    <string name="continue_nextpage" translatable="false">जारी रखना</string>
+</resources>

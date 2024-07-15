@@ -1,5 +1,6 @@
 package com.example.sparkdriverloginpage.ui.theme
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,6 +14,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -52,7 +57,8 @@ import kotlinx.coroutines.launch
 fun SignInScreen(viewModel: StateTestViewModel,username:String,navController: NavHostController) {
 //    val name by viewModel.name.observeAsState(initial = "")
     val name by viewModel.name.observeAsState(initial = "")
-
+//    Use ConstraintLayout
+//    LocalConfiguration.current.screenWidthDp
 //    var email by remember {
 //        mutableStateOf("")
 //    }
@@ -261,4 +267,33 @@ fun SignInScreen(viewModel: StateTestViewModel,username:String,navController: Na
 //    )
 //    val passwordPattern = Regex("^(?=.*[0–9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$")
 //    return emailPattern.matches(email) && passwordPattern.matches(password)
+//}
+//@Composable
+//fun LazyColumnGrid(
+////    columns: GridCells.Adaptive = GridCells.Adaptive(minSize = 64.dp)
+////            columns: GridCells.Fixed = GridCells.Fixed(4)
+//){
+//    val numbers = (0..20).toList()
+//    LazyVerticalGrid(columns = GridCells.Fixed(3)) {
+//        items(10){
+//            Text(text = "Number $it", fontSize = 20.sp)
+////            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+//////                Text(text = "Number $it")
+////            }
+//        }
+//
+//    }
+//}
+
+//@Composable
+//fun LazyColumnScreen() {
+//    var screenScroll = rememberScrollState()
+//    LazyColumn(
+//        content = {
+//            items(100, itemContent = {
+//                Log.i("lazycolumn", "Item $it")
+//                TextItem(name = "Item $it")
+//            })
+//        }
+//    )
 //}

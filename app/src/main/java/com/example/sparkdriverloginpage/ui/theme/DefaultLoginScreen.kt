@@ -41,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
@@ -103,7 +104,8 @@ fun DefaultLoginScreen(viewModel: StateTestViewModel,navController: NavHostContr
                     contentDescription = "Login image",
                     modifier = Modifier.size(80.dp)
                 )
-                Text(text = "Spark Driver", color = Color.White, fontSize = 50.sp)
+                val spark_driver = stringResource(id = R.string.spark_driver)
+                Text(text = spark_driver, color = Color.White, fontSize = 50.sp)
             }
             Spacer(modifier = Modifier.height(100.dp))
             CustomLayoutOutlinedTextfield(value = name ?: "",
