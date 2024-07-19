@@ -5,5 +5,6 @@
     <string name="enter_password">पास वर्ड दर्ज करें</string>
     <string name="reset_password">पासवर्ड रीसेट</string>
     <string name="spark_driver">स्पार्क ड्राइवर</string>
+    <string name="privacy_statement">Spark Driver</string>
     <string name="continue_nextpage" translatable="false">जारी रखना</string>
 </resources>

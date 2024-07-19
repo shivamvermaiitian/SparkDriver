@@ -108,12 +108,18 @@ fun DefaultLoginScreen(viewModel: StateTestViewModel,navController: NavHostContr
                 Text(text = spark_driver, color = Color.White, fontSize = 50.sp)
             }
             Spacer(modifier = Modifier.height(100.dp))
+            val enter_email = stringResource(id = R.string.enter_email)
+            val continuee = stringResource(id = R.string.continue_nextpage)
             CustomLayoutOutlinedTextfield(value = name ?: "",
                 onValueChange = { viewModel.onNameUpdate(it) },
+//                placeholder = enter_email
                 placeholder = "ID or Email"
             )
+
+
+
             Spacer(modifier = Modifier.height(20.dp))
-            CustomLayoutButton(onClick = {
+            CustomLayoutButton(text ="CONTINUE", onClick = {
                 keyboardController?.hide()
                 viewModel.isValidCredentials(name)
 //            viewModel.isValidUpdate(Patterns.EMAIL_ADDRESS.matcher(name).matches())
@@ -121,7 +127,7 @@ fun DefaultLoginScreen(viewModel: StateTestViewModel,navController: NavHostContr
                 if (isValid) {
                     navController.navigate(Routes.screenB + "/$name")
                     // Handle successful login
-                } }
+                } },
             )
 
 
@@ -136,7 +142,7 @@ fun DefaultLoginScreen(viewModel: StateTestViewModel,navController: NavHostContr
 //                    .background(color = Color.DarkGray),
 //                update = {
 //                    val textView = it.findViewById<TextView>(R.id.textView)
-//                    textView.text = "Hello android view"
+//                    textView.text = "Views in Compose"
 //                    textView.textSize = 40F
 //                    textView.isClickable = true
 //                }
@@ -333,7 +339,8 @@ fun DefaultLoginScreen(viewModel: StateTestViewModel,navController: NavHostContr
 //            }
 //        Text(modifier = Modifier.clickable {  }, text = "SIGN UP", color = Color.White)
             Spacer(modifier = Modifier.height(240.dp))
-            Text(modifier = Modifier.clickable { }, text = "Privacy statement", color = Color.White)
+            val privacy_statement = stringResource(id = R.string.privacy_statement)
+            Text(modifier = Modifier.clickable { }, text = privacy_statement, color = Color.White)
 
 
         }

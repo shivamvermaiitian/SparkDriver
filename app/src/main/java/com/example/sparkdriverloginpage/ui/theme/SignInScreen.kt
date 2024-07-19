@@ -122,35 +122,39 @@ fun SignInScreen(viewModel: StateTestViewModel,username:String,navController: Na
 //        } )
 
 //        Log.i("Myscreenlog","is called")
-            OutlinedTextField(
-                value = name, onValueChange = {
-                    viewModel.onNameUpdate(it)
-                },
-//            placeholder = {
-//                if (username==null){
-//                Text(text = "Email",fontSize = 20.sp)
-//            }else{
-//                Text(text = username,fontSize = 20.sp)
-//            }
-//                          },
-                singleLine = true,
-                textStyle = TextStyle(
-                    fontSize = 20.sp,
-                )
-//            label = {
-//        }
-                , modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        start = 20.dp,
-                        end = 20.dp
-                    )
-                    .size(
-                        width = 250.dp,
-                        height = 70.dp
-                    ),
-                shape = RoundedCornerShape(36.dp), colors = TextFieldDefaults.colors()
-            )
+        CustomLayoutOutlinedTextfield(value = name ?: "",
+            onValueChange = { viewModel.onNameUpdate(it) },
+                placeholder = "ID or Email"
+        )
+//            OutlinedTextField(
+//                value = name, onValueChange = {
+//                    viewModel.onNameUpdate(it)
+//                },
+////            placeholder = {
+////                if (username==null){
+////                Text(text = "Email",fontSize = 20.sp)
+////            }else{
+////                Text(text = username,fontSize = 20.sp)
+////            }
+////                          },
+//                singleLine = true,
+//                textStyle = TextStyle(
+//                    fontSize = 20.sp,
+//                )
+////            label = {
+////        }
+//                , modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(
+//                        start = 20.dp,
+//                        end = 20.dp
+//                    )
+//                    .size(
+//                        width = 250.dp,
+//                        height = 70.dp
+//                    ),
+//                shape = RoundedCornerShape(36.dp), colors = TextFieldDefaults.colors()
+//            )
             Spacer(modifier = Modifier.height(20.dp))
             OutlinedTextField(
                 value = password, onValueChange = {
@@ -214,6 +218,16 @@ fun SignInScreen(viewModel: StateTestViewModel,username:String,navController: Na
 //                    modifier = Modifier.padding(8.dp)
 //                )
             }
+//        CustomLayoutButton(text = continuee, onClick = {
+//            keyboardController?.hide()
+//            viewModel.isValidCredentials(name)
+////            viewModel.isValidUpdate(Patterns.EMAIL_ADDRESS.matcher(name).matches())
+////            isValid = isValidCredentials(name)
+//            if (isValid) {
+//                navController.navigate(Routes.screenB + "/$name")
+//                // Handle successful login
+//            } },
+//        )
 
             Button(
                 onClick = {

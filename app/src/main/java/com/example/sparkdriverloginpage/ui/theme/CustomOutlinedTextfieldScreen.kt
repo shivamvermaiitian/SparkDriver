@@ -55,13 +55,8 @@ fun CustomLayoutOutlinedTextfield(
     textStyle: TextStyle = TextStyle(fontSize =20.sp ),
     modifier: Modifier = Modifier
         .fillMaxWidth()
-        .padding(
-            start = 20.dp,
-            end = 20.dp
-        )
-        .size(
-            width = 250.dp,
-            height = 70.dp
+        .padding(start = 20.dp, end = 20.dp
+        ).size(width = 250.dp, height = 70.dp
         ),
     shape: RoundedCornerShape= RoundedCornerShape(36.dp),
     colors: TextFieldColors = TextFieldDefaults.outlinedTextFieldColors(
@@ -77,7 +72,6 @@ fun CustomLayoutOutlinedTextfield(
         textStyle = textStyle,
         shape = shape,
         colors = colors
-
     )
 }
 
@@ -88,6 +82,7 @@ fun CustomLayoutOutlinedTextfield(
 fun CustomLayoutButton(
     onClick: () -> Unit,
     text: String = "CONTINUE",
+//    text: String = "CONTINUE",
     containerColor: Color = DarkBlue_Button,
     contentColor: Color = Color.White,
     modifier: Modifier = Modifier

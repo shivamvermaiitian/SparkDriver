@@ -4,6 +4,7 @@
     <string name="enter_password">Enter password</string>
     <string name="reset_password">Reset password</string>
     <string name="spark_driver">Spark Driver</string>
+    <string name="privacy_statement">Privacy statement</string>
     <string name="continue_nextpage">continue</string>
 
 </resources>

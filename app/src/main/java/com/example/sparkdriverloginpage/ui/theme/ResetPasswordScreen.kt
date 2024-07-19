@@ -115,30 +115,35 @@ fun ResetPasswordScreen(viewModel: StateTestViewModel,navController: NavHostCont
             )
             Spacer(modifier = Modifier.height(16.dp))
 
-            OutlinedTextField(
-                value = name, onValueChange = {
-                    viewModel.onNameUpdate(it)
-                },
-                placeholder = { Text("ID or Email", fontSize = 20.sp) },
-                singleLine = true,
-                textStyle = TextStyle(
-                    fontSize = 20.sp,
-                ),
-//            label = {
-//            Text(text ="ID or Email",fontSize = 18.sp, fontStyle = androidx.compose.ui.text.font.FontStyle(FontStyle.FONT_SLANT_ITALIC))
-//        },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        start = 20.dp,
-                        end = 20.dp
-                    )
-                    .size(
-                        width = 250.dp,
-                        height = 70.dp
-                    ),
-                shape = RoundedCornerShape(36.dp), colors = TextFieldDefaults.colors()
+            CustomLayoutOutlinedTextfield(value = name ?: "",
+                onValueChange = { viewModel.onNameUpdate(it) },
+                placeholder = "ID or Email"
             )
+
+//            OutlinedTextField(
+//                value = name, onValueChange = {
+//                    viewModel.onNameUpdate(it)
+//                },
+//                placeholder = { Text("ID or Email", fontSize = 20.sp) },
+//                singleLine = true,
+//                textStyle = TextStyle(
+//                    fontSize = 20.sp,
+//                ),
+////            label = {
+////            Text(text ="ID or Email",fontSize = 18.sp, fontStyle = androidx.compose.ui.text.font.FontStyle(FontStyle.FONT_SLANT_ITALIC))
+////        },
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(
+//                        start = 20.dp,
+//                        end = 20.dp
+//                    )
+//                    .size(
+//                        width = 250.dp,
+//                        height = 70.dp
+//                    ),
+//                shape = RoundedCornerShape(36.dp), colors = TextFieldDefaults.colors()
+//            )
             Spacer(modifier = Modifier.height(20.dp))
             if (!isValid) {
                 scope.launch {
@@ -167,7 +172,6 @@ fun ResetPasswordScreen(viewModel: StateTestViewModel,navController: NavHostCont
 //                        .align(alignment = Alignment.CenterHorizontally)
 //                )
             }
-
 
             Button(
                 onClick = {
